@@ -187,7 +187,7 @@ currentPageIndicatorTintColor:(UIColor*)currentPageIndicatorTintColor
         if (self.localImgArray) {
             imgView.image = [UIImage imageNamed:self.localImgArray[tag]];
         }else{
-            NSLog(@"sd-->> %ld",tag);
+            //NSLog(@"sd-->> %ld",tag);
             [imgView sd_setImageWithURL:[NSURL URLWithString:self.imgURLArray[tag]] placeholderImage:[UIImage imageNamed:self.placeholderImage]];
         }
         

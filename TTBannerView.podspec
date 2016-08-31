@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.author             = { "whtacm" => "whtacm@gmail.com" }
   s.platform     = :ios, "7.0"
   s.source       = { :git => "https://github.com/whtacm/TTBannerView.git", :tag => s.version }
-  s.source_files = "TTBannerView/TTBannerView.{h,m}"
+  s.source_files = "TTBannerView/**/TTBannerView.{h,m}"
   s.requires_arc = true
   s.dependency    "SDWebImage"
 end
