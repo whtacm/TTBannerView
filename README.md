@@ -1,4 +1,5 @@
 # TTBannerView
+====
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/whtacm/TTPopupView/master/LICENSE)&nbsp;
 [![SUPPORT](https://img.shields.io/badge/support-iOS%207%2B%20-blue.svg?style=flat)](https://en.wikipedia.org/wiki/IOS_7)&nbsp;
 
@@ -6,13 +7,16 @@
 </br>
 一个简单的滚动广告栏，图片来源可以选择本地或者网络，可以添加标题和分页控件
 
+</br>
 ## 样式截图Screenshots
+---
 </br>
 
 
 ![screenshot.](screenshoot.gif)
 
 ## 安装&使用
+---
 ###  安装
 该项目依赖 [SDWebImage](https://github.com/rs/SDWebImage)
 #### 手动安装
@@ -23,8 +27,7 @@
 
 	pod 'TTBannerView','~> 0.0.1'
 	pod 'SDWebImage'
-
-</br>
+	
 ###  使用
 	
 	//使用本地图片
