@@ -9,22 +9,30 @@
 </br>
 ## 样式截图Screenshots
 
-![screenshot.](screenshoot.gif)
+![screenshot.gif](screenshoot.gif)
 
 ## 安装&使用
 ###  安装
-该项目依赖 [SDWebImage](https://github.com/rs/SDWebImage)
+
 #### 手动安装
 
-你可以手动地把项目下的 `TTBannerView` 的文件拷贝到你的项目中使用
+你可以手动地把项目下的 `TTBannerView` 的文件拷贝到你的项目中使用，该项目依赖 [SDWebImage](https://github.com/rs/SDWebImage)，需要添加：
+
+	pod 'SDWebImage'
 
 #### Cocoapods
+使用Cocoapods，只需要添加：
 
 	pod 'TTBannerView','~> 0.0.1'
-	pod 'SDWebImage'
+	
 	
 ###  使用
-	
+因为安全问题，http访问需要修改 ·info.plist ·文件：
+
+![config.jpg](config.jpg)
+
+#### 代码
+
 	//使用本地图片
 	NSArray<NSString*>* localImgArray = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg"];
     
