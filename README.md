@@ -1,5 +1,4 @@
 # TTBannerView
-====
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/whtacm/TTPopupView/master/LICENSE)&nbsp;
 [![SUPPORT](https://img.shields.io/badge/support-iOS%207%2B%20-blue.svg?style=flat)](https://en.wikipedia.org/wiki/IOS_7)&nbsp;
 
@@ -9,14 +8,10 @@
 
 </br>
 ## 样式截图Screenshots
----
-</br>
-
 
 ![screenshot.](screenshoot.gif)
 
 ## 安装&使用
----
 ###  安装
 该项目依赖 [SDWebImage](https://github.com/rs/SDWebImage)
 #### 手动安装
@@ -64,6 +59,7 @@
     [self.view addSubview:ttbv2];
     
 #### 样式参数：
+
 	/**
      * 只显示滚动图片
      */
