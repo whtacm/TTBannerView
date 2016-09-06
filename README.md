@@ -88,9 +88,11 @@
      * 分页控件和标题都显示，标题居右
      */
     TitleRightAlign
-### 版本
+    
+####  版本:
 - 0.0.2 修复使用UINavigationController后导致UIScrollView尺寸变化
 - 0.0.1 初始版本，支持本地和网络图片
+
 ####  问题&反馈
 - QQ ：364432355
 - E-mail ： whtacm@gmail.com
