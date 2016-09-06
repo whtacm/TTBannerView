@@ -34,6 +34,8 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 
+@property (nonatomic, weak  ) UIView *rootView;
+
 @property (nonatomic, weak  ) UIScrollView *scrollView;
 
 @property (nonatomic, weak  ) UIPageControl *pageControl;
@@ -156,88 +158,109 @@ currentPageIndicatorTintColor:(UIColor*)currentPageIndicatorTintColor
 }
 
 -(void)setupView{
-    CGFloat height = self.frame.size.height;
     CGFloat width = self.frame.size.width;
+    CGFloat height = self.frame.size.height;
     
-    UIScrollView *sv = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
-    self.scrollView = sv;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.contentSize = CGSizeMake(width * (self.count + 2), height);
-    self.scrollView.backgroundColor = [UIColor grayColor];
-    self.scrollView.delegate = self;
-    [self.scrollView setContentOffset:CGPointMake(width, 0)];
-    [self addSubview:self.scrollView];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
+    [self addSubview:(
+                      {
+                          self.rootView = view;
+                      })
+     ];
     
-    
-    for (int i = 0; i< self.count + 2; i++) {
-        UIImageView *imgView = [[UIImageView alloc]initWithFrame:CGRectMake(width * i, 0, width, height)];
-        imgView.clipsToBounds = YES;
-        NSInteger tag = 0;
+    [self addSubview:({
+        UIScrollView *sv = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
         
-        if (i == 0) {
-            tag = self.count - 1;
-        }else if(i == self.count +1 ){
-            tag = 0;
-        }else{
-            tag = i - 1;
+        for (int i = 0; i < self.count + 2; i++) {
+            UIImageView *imgView = [[UIImageView alloc]init];
+            NSInteger tag = 0;
+            
+            if (i == 0) {
+                tag = self.count - 1;
+            }else if(i == self.count + 1 ){
+                tag = 0;
+            }else{
+                tag = i - 1;
+            }
+            
+            if (self.localImgArray) {
+                imgView.image = [UIImage imageNamed:self.localImgArray[tag]];
+            }else{
+                [imgView sd_setImageWithURL:[NSURL URLWithString:self.imgURLArray[tag]] placeholderImage:[UIImage imageNamed:self.placeholderImage]];
+            }
+            
+            imgView.tag = tag;
+            imgView.clipsToBounds = YES;
+            imgView.userInteractionEnabled = YES;
+            imgView.contentMode = UIViewContentModeScaleAspectFill;
+            imgView.frame = CGRectMake(width * i, 0, width, height);
+
+            [sv addSubview:imgView];
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgSingleTap:)];
+            [imgView addGestureRecognizer:tap];
         }
         
-        if (self.localImgArray) {
-            imgView.image = [UIImage imageNamed:self.localImgArray[tag]];
-        }else{
-            //NSLog(@"sd-->> %ld",tag);
-            [imgView sd_setImageWithURL:[NSURL URLWithString:self.imgURLArray[tag]] placeholderImage:[UIImage imageNamed:self.placeholderImage]];
-        }
+        sv.delegate = self;
+        sv.scrollsToTop = NO;
+        sv.pagingEnabled = YES;
+        sv.showsHorizontalScrollIndicator = NO;
+        sv.backgroundColor = [UIColor grayColor];
+        sv.contentOffset = CGPointMake(width, 0);
+        sv.contentSize = CGSizeMake(width * (self.count + 2), 0);
         
-        imgView.tag = tag;
-        imgView.userInteractionEnabled = YES;
-        imgView.contentMode = UIViewContentModeScaleAspectFill;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgSingleTap:)];
-        [imgView addGestureRecognizer:tap];
-        [self.scrollView addSubview:imgView];
-    }
+        self.scrollView = sv;
+    })];
+    
+    
     
     if (self.type == TitleLeftAlign ||
         self.type == TitleCentralAlign ||
         self.type == TitleRightAlign) {
-        UILabel *titleLabel  =[[UILabel alloc]initWithFrame:CGRectMake(10, height - 40, width - 20, 26)];
-        [titleLabel setTextColor:[UIColor whiteColor]];
-        [titleLabel setFont:[UIFont systemFontOfSize:15]];
-        switch (self.type) {
-            case TitleLeftAlign:
-                [titleLabel setTextAlignment:NSTextAlignmentLeft];
-                break;
-            case TitleCentralAlign:
-                [titleLabel setTextAlignment:NSTextAlignmentCenter];
-                break;
-            default:
-                [titleLabel setTextAlignment:NSTextAlignmentRight];
-                break;
-        }
-        [titleLabel setText:self.titleArray[0]];
-        self.titleLabel = titleLabel;
-        [self addSubview:self.titleLabel];
-    }
-    
-    if (self.type != OnlyPic) {
-        UIPageControl *pc=  [[UIPageControl alloc] initWithFrame:CGRectMake(0, height - 24, width, 24)];
-        self.pageControl = pc;
-        self.pageControl.tintColor = [UIColor clearColor];
-        self.pageControl.backgroundColor = [UIColor clearColor];
-        self.pageControl.numberOfPages = self.count ;
-        self.pageControl.pageIndicatorTintColor = self.pageIndicatorTintColor ? self.pageIndicatorTintColor : [UIColor whiteColor];
-        self.pageControl.currentPageIndicatorTintColor = self.currentPageIndicatorTintColor ? self.currentPageIndicatorTintColor : [UIColor grayColor];
-        [self addSubview:self.pageControl];
+        [self addSubview:({
+            UILabel *titleLabel  =[[UILabel alloc]initWithFrame:CGRectMake(10, height - 40, width - 20, 26)];
+            [titleLabel setTextColor:[UIColor whiteColor]];
+            [titleLabel setFont:[UIFont systemFontOfSize:15]];
+            switch (self.type) {
+                case TitleLeftAlign:
+                    [titleLabel setTextAlignment:NSTextAlignmentLeft];
+                    break;
+                case TitleCentralAlign:
+                    [titleLabel setTextAlignment:NSTextAlignmentCenter];
+                    break;
+                default:
+                    [titleLabel setTextAlignment:NSTextAlignmentRight];
+                    break;
+            }
+            [titleLabel setText:self.titleArray[0]];
+            self.titleLabel = titleLabel;
+            //   [self addSubview:self.titleLabel];
+        })];
+        
     }
     
     [self addTimer];
+    
+    if (self.type != OnlyPic) {
+        [self addSubview:({
+            UIPageControl *pc=  [[UIPageControl alloc] initWithFrame:CGRectMake(0, height - 24, width, 24)];
+            
+            pc.tintColor = [UIColor clearColor];
+            pc.backgroundColor = [UIColor clearColor];
+            pc.numberOfPages = self.count ;
+            pc.userInteractionEnabled = NO;
+            pc.pageIndicatorTintColor = self.pageIndicatorTintColor ? self.pageIndicatorTintColor : [UIColor whiteColor];
+            pc.currentPageIndicatorTintColor = self.currentPageIndicatorTintColor ? self.currentPageIndicatorTintColor : [UIColor grayColor];
+            
+            self.pageControl = pc;
+        })];
+        
+    }
 }
 
 -(void) addTimer{
     self.timer = [NSTimer scheduledTimerWithTimeInterval:self.timerInterval target:self selector:@selector(nextImg) userInfo:nil repeats:YES ];
-    [[NSRunLoop mainRunLoop ]addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop currentRunLoop ]addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 -(void)nextImg{
@@ -248,7 +271,9 @@ currentPageIndicatorTintColor:(UIColor*)currentPageIndicatorTintColor
 
 -(void) removeTimer{
     if (self.timer) {
+        
         [self.timer invalidate];
+        
         self.timer = nil;
     }
     
@@ -322,9 +347,22 @@ currentPageIndicatorTintColor:(UIColor*)currentPageIndicatorTintColor
     
 }
 
+/**
+ *
+ *
+ *  @param scrollView
+ */
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
     [self removeTimer];
 }
+
+/**
+ *
+ *
+ *  @param scrollView
+ *  @param decelerate   	
+ */
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     [self addTimer];
 }

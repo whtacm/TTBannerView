@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+    self.navigationItem.title = @"TTBanner";
     
     //
     NSArray<NSString*>* localImgArray = @[@"1.jpg",@"2.jpg",@"3.jpg",@"4.jpg"];
@@ -29,7 +29,7 @@
                                         @"震后三年 四条线路带你看尽成都美景",
                                         @"从西安出发 11月一睹秋末最压轴美景"];
     
-    TTBannerView *ttbv1 = [[TTBannerView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) type:TitleCentralAlign localImgArray:localImgArray titleArray:titleArray1 pageIndicatorTintColor:[UIColor whiteColor] currentPageIndicatorTintColor:[UIColor greenColor] timerInterval:2.0f delegate:self];
+    TTBannerView *ttbv1 = [[TTBannerView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 200) type:TitleCentralAlign localImgArray:localImgArray titleArray:titleArray1 pageIndicatorTintColor:[UIColor whiteColor] currentPageIndicatorTintColor:[UIColor greenColor] timerInterval:2.0f delegate:self];
     
     [self.view addSubview:ttbv1];
     
@@ -48,7 +48,7 @@
                                        @"夕阳下的美景图片"];
     
     
-    TTBannerView *ttbv2 = [[TTBannerView alloc]initWithFrame:CGRectMake(0, 240, self.view.frame.size.width, 200) type:TitleLeftAlign imgURLArray:imgURLArray placeholderImage:nil titleArray:titleArray2 pageIndicatorTintColor:[UIColor whiteColor] currentPageIndicatorTintColor:[UIColor grayColor] timerInterval:3.0f click:^(NSInteger imgIndex) {
+    TTBannerView *ttbv2 = [[TTBannerView alloc]initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, 200) type:TitleLeftAlign imgURLArray:imgURLArray placeholderImage:nil titleArray:titleArray2 pageIndicatorTintColor:[UIColor whiteColor] currentPageIndicatorTintColor:[UIColor grayColor] timerInterval:3.0f click:^(NSInteger imgIndex) {
         NSLog(@"you click: %ld",(long)imgIndex);
     }];
     
